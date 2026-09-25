@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "preset": null,
+  "selection": {
+    "ui": "nativewind4",
+    "data": "react-query",
+    "state": "zustand",
+    "storage": "kv-store",
+    "forms": "none",
+    "i18n": "none",
+    "auth": "none",
+    "payments": "none",
+    "analytics": "none",
+    "crash": "none",
+    "push": "none",
+    "backend": "none",
+    "onboarding": "off",
+    "consent": "none",
+    "testing": "none"
+  },
+  "applied": true,
+  "modules": {
+    "app": {
+      "expo": {
+        "plugins": ["expo-sqlite"],
+        "ios": {
+          "privacyManifests": {
+            "NSPrivacyTracking": false,
+            "NSPrivacyTrackingDomains": [],
+            "NSPrivacyCollectedDataTypes": [],
+            "NSPrivacyAccessedAPITypes": [
+              {
+                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+                "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+              },
+              {
+                "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+                "NSPrivacyAccessedAPITypeReasons": ["C617.1"]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "postSetup": ["Run `bun run start -- -c` once so Metro picks up the NativeWind transform."],
+    "doctor": [],
+    "privacy": {
+      "dataSafety": []
+    }
+  },
+  "keepModules": false,
+  "examples": false
+}
