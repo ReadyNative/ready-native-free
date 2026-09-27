@@ -2,7 +2,7 @@
 
 An Expo SDK 57 app with the stack already chosen: **Expo Router**, **NativeWind 4**
 (Tailwind 3), **TanStack Query** and **Zustand**. TypeScript, dark mode, nothing else.
-MIT licensed - this is v1.2.0 of `ready-native-free`, the free tier of [readynative.dev](https://readynative.dev).
+MIT licensed - this is v1.2.1 of `ready-native-free`, the free tier of [readynative.vercel.app](https://readynative.vercel.app).
 
 ```bash
 git clone https://github.com/ReadyNative/ready-native-free my-app && cd my-app
@@ -39,13 +39,13 @@ Everything here runs in Expo Go; no dev build, no accounts, no keys. `start` is
 
 ## Want the rest?
 
-This repo is one fixed stack. [ReadyNative Starter](https://readynative.dev/#pricing) is the same app
+This repo is one fixed stack. [ReadyNative Starter](https://readynative.vercel.app/#pricing) is the same app
 with the picker - 5 UI stacks (NativeWind 4, NativeWind 5 RC, Tamagui, Unistyles, StyleSheet),
 TanStack Query / Apollo / SWR, Zustand / Jotai, forms, i18n, onboarding, Jest + Maestro
-tests - plus EAS build and submit profiles, GitHub Actions CI, `doctor`, the icon / splash
+tests - plus EAS build and submit profiles, `doctor`, the icon / splash
 generator, deep-link files, and `AGENTS.md` + the architecture graph for your coding agent. <!-- check-refs-ignore: describes Starter -->
-[ReadyNative Pro](https://readynative.dev/#pricing) adds sign-in (Supabase, Clerk, Better Auth),
+[ReadyNative Pro](https://readynative.vercel.app/#pricing) adds sign-in (Supabase, Clerk, Better Auth),
 subscriptions (RevenueCat, Adapty, Stripe), push, analytics, crash reporting, API routes and
 two finished example apps.
 
-Docs: https://docs.readynative.dev
+Docs: https://readynative.vercel.app/docs/
