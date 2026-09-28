@@ -1,7 +1,7 @@
-import { KeyboardAvoidingView, ScrollView, View } from "react-native";
+import { View } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { SafeAreaView, type Edge } from "react-native-safe-area-context";
 
-import { isIOS } from "@/lib/utils";
 import { space } from "@/theme/tokens";
 import type { SafeArea, ScreenProps } from "@/components/ui/types";
 
@@ -27,15 +27,14 @@ export function Screen({
   return (
     <SafeAreaView edges={EDGES[safe]} style={{ flex: 1, backgroundColor: colors[bg] }}>
       {scroll ? (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={isIOS ? "padding" : undefined}>
-          <ScrollView
-            contentContainerStyle={{ padding, flexGrow: 1 }}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="on-drag"
-          >
-            {children}
-          </ScrollView>
-        </KeyboardAvoidingView>
+        <KeyboardAwareScrollView
+          contentContainerStyle={{ padding, flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          bottomOffset={space[4]}
+        >
+          {children}
+        </KeyboardAwareScrollView>
       ) : (
         <View style={{ flex: 1, padding }}>{children}</View>
       )}

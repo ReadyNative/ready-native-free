@@ -290,12 +290,38 @@ export interface ErrorStateProps extends EmptyStateProps {
 
 export type ToastKind = "info" | "success" | "error";
 
+/**
+ * `toast.show()` is native where the build allows it: Burnt's system toast on iOS dev and store
+ * builds (`@/lib/native-toast`), the stack's own themed card in Expo Go, on Android and web.
+ */
 export interface ToastOptions {
   title: string;
   description?: string;
   kind?: ToastKind;
   /** Milliseconds; adapters default to ~3000. */
   duration?: number;
+}
+
+/**
+ * A native bottom sheet: SwiftUI's sheet on iOS (Liquid Glass on iOS 26), Material 3's modal
+ * bottom sheet on Android, a drawer on web - one implementation shared by every stack
+ * (`BottomSheet` from `@expo/ui`, which runs in Expo Go). Children are ordinary `@/components/ui` views.
+ *
+ * ```tsx
+ * <Sheet visible={open} onClose={() => setOpen(false)} detents={["half", "full"]}>
+ *   <Text variant="heading">Details</Text>
+ * </Sheet>
+ * ```
+ */
+export interface SheetProps {
+  visible: boolean;
+  /** Called when the user swipes the sheet away or taps outside it. */
+  onClose: () => void;
+  /** Heights it can rest at; omit to size it to its content. */
+  detents?: ("half" | "full")[];
+  /** Grabber at the top. Default true. */
+  grabber?: boolean;
+  children?: ReactNode;
 }
 
 export interface ToastApi {

@@ -1,6 +1,8 @@
 import { Stack, usePathname } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { KeyboardProvider } from "react-native-keyboard-controller";
 
 import { AnimatedSplashOverlay } from "@/components/animated-icon";
 import { useAuthRedirect } from "@/hooks/use-auth-redirect";
@@ -24,11 +26,17 @@ export default function RootLayout() {
     });
   }, []);
 
+  // Gesture handler: native press handling (`@/components/ui` Pressable, sheets). Keyboard provider:
+  // the keyboard-aware scrolling behind `<Screen scroll>`. Both wrap everything, once.
   return (
-    <Providers>
-      <AnimatedSplashOverlay />
-      <RootStack />
-    </Providers>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <KeyboardProvider>
+        <Providers>
+          <AnimatedSplashOverlay />
+          <RootStack />
+        </Providers>
+      </KeyboardProvider>
+    </GestureHandlerRootView>
   );
 }
 

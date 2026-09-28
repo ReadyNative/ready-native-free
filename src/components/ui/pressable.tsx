@@ -1,13 +1,21 @@
 import * as Haptics from "expo-haptics";
-import { Pressable as RNPressable } from "react-native";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { createAnimatedPressable } from "pressto";
 
 import { isWeb } from "@/lib/utils";
 import type { PressableProps } from "@/components/ui/types";
 
-const SPRING = { damping: 15, stiffness: 300 };
+/**
+ * Pressto (https://github.com/enzomanuelmangano/pressto): the press runs on the UI thread
+ * through a gesture-handler button, so the scale tracks the finger at 120 Hz even while JS is
+ * busy, and a press inside a scrolling list cancels cleanly when the list scrolls. `scale` is
+ * how far it shrinks at full press.
+ */
+const ScalePressable = createAnimatedPressable<{ scale: number }>((progress, { metadata }) => {
+  "worklet";
+  return { transform: [{ scale: 1 - (1 - metadata.scale) * progress }] };
+});
 
-/** Press feedback shared by every tappable primitive: spring scale + light haptic. */
+/** Press feedback shared by every tappable primitive: native-thread scale + light haptic. */
 export function Pressable({
   onPress,
   haptic = true,
@@ -16,9 +24,6 @@ export function Pressable({
   style,
   children,
 }: PressableProps) {
-  const pressed = useSharedValue(1);
-  const animatedStyle = useAnimatedStyle(() => ({ transform: [{ scale: pressed.get() }] }));
-
   const handlePress = () => {
     if (haptic && !isWeb) {
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {
@@ -29,20 +34,13 @@ export function Pressable({
   };
 
   return (
-    <Animated.View style={animatedStyle}>
-      <RNPressable
-        disabled={disabled}
-        onPress={handlePress}
-        onPressIn={() => {
-          pressed.set(withSpring(scale, SPRING));
-        }}
-        onPressOut={() => {
-          pressed.set(withSpring(1, SPRING));
-        }}
-        style={[disabled ? { opacity: 0.5 } : null, style]}
-      >
-        {children}
-      </RNPressable>
-    </Animated.View>
+    <ScalePressable
+      disabled={disabled}
+      metadata={{ scale }}
+      onPress={handlePress}
+      style={[disabled ? { opacity: 0.5 } : null, style]}
+    >
+      {children}
+    </ScalePressable>
   );
 }

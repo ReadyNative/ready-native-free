@@ -4,6 +4,7 @@ import Animated, { FadeInUp, FadeOutUp } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { radius, space } from "@/theme/tokens";
+import { showNativeToast } from "@/lib/native-toast";
 import type { ToastApi, ToastKind, ToastOptions } from "@/components/ui/types";
 
 import { Text } from "./text";
@@ -25,6 +26,8 @@ let nextId = 1;
 
 export const toast: ToastApi = {
   show(opts) {
+    // A native toast (Burnt, iOS dev/store builds) when the build has one; else the card below.
+    if (showNativeToast(opts)) return;
     const item: ToastItem = { ...opts, id: nextId++ };
     listeners.forEach((listener) => listener(item));
   },

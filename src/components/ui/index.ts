@@ -16,6 +16,7 @@ import { Loading } from "./loading";
 import { Pressable } from "./pressable";
 import { Row } from "./row";
 import { Screen } from "./screen";
+import { Sheet } from "./sheet";
 import { Skeleton } from "./skeleton";
 import { Switch } from "./switch";
 import { Text } from "./text";
@@ -37,6 +38,7 @@ export {
   Pressable,
   Row,
   Screen,
+  Sheet,
   Skeleton,
   Switch,
   Text,

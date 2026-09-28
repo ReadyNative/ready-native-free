@@ -1,4 +1,5 @@
 import * as Haptics from "expo-haptics";
+import { useState } from "react";
 import { Pressable as RNPressable, View } from "react-native";
 
 import { isWeb } from "@/lib/utils";
@@ -31,6 +32,7 @@ export function Row({
   style,
 }: RowProps) {
   const { colors } = useTheme();
+  const [pressed, setPressed] = useState(false);
   const pressable = onPress !== undefined || onLongPress !== undefined;
   const showChevron = chevron ?? (onPress !== undefined && trailing === undefined);
 
@@ -71,16 +73,25 @@ export function Row({
 
       {trailing}
       {showChevron ? (
-        <Icon name="chevron.right" fallback="chevron_right" size={18} color="mutedForeground" />
+        <Icon name="chevron.forward" fallback="chevron_right" size={18} color="mutedForeground" />
       ) : null}
     </>
   );
 
-  const layout = { minHeight: MIN_HEIGHT, paddingHorizontal: space[4], paddingVertical: space[2] };
+  // A plain style array, not `className` or a `style` function: NativeWind's Pressable interop
+  // drops a function `style`, which left rows without padding or a row direction.
+  const layout = {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: space[3],
+    minHeight: MIN_HEIGHT,
+    paddingHorizontal: space[4],
+    paddingVertical: space[2],
+  } as const;
 
   if (!pressable) {
     return (
-      <View testID={testID} className="flex-row items-center gap-3" style={[layout, style]}>
+      <View testID={testID} style={[layout, style]}>
         {body}
       </View>
     );
@@ -93,8 +104,9 @@ export function Row({
       disabled={disabled}
       onPress={handlePress}
       onLongPress={onLongPress}
-      className="flex-row items-center gap-3"
-      style={({ pressed }) => [
+      onPressIn={() => setPressed(true)}
+      onPressOut={() => setPressed(false)}
+      style={[
         layout,
         pressed ? { backgroundColor: colors.accent } : null,
         disabled ? { opacity: 0.5 } : null,

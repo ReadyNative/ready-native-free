@@ -15,6 +15,8 @@
     "push": "none",
     "backend": "none",
     "onboarding": "off",
+    "location": "none",
+    "widgets": "none",
     "consent": "none",
     "testing": "none"
   },

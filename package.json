@@ -1,13 +1,15 @@
 {
   "name": "readynative",
   "main": "expo-router/entry",
-  "version": "1.2.1",
+  "version": "1.3.0",
   "engines": {
     "node": ">=22.18"
   },
   "dependencies": {
+    "@expo/ui": "~57.0.20",
     "@rn-primitives/slot": "^1.5.2",
     "@tanstack/react-query": "^5.103.2",
+    "burnt": "^0.13.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "expo": "~57.0.25",
@@ -28,12 +30,14 @@
     "expo-system-ui": "~57.0.4",
     "expo-web-browser": "~57.0.3",
     "nativewind": "4.2.7",
+    "pressto": "^0.7.0",
     "react": "19.2.3",
     "react-native": "0.86.3",
     "react-native-gesture-handler": "~2.32.0",
+    "react-native-keyboard-controller": "1.21.9",
     "react-native-reanimated": "4.5.1",
     "react-native-safe-area-context": "~5.7.0",
-    "react-native-screens": "~4.26.0",
+    "react-native-screens": "4.26.2",
     "react-native-worklets": "0.10.1",
     "tailwind-merge": "^3.7.0",
     "tailwindcss-animate": "^1.0.7",
@@ -62,5 +66,9 @@
     "lint:fix": "expo lint --fix",
     "format": "prettier --write ."
   },
-  "private": true
+  "private": true,
+  "//patchedDependencies": "Pinned exactly: a patch applies to one version. Drop it once react-native-screens resets the header direction itself (see patches/).",
+  "patchedDependencies": {
+    "react-native-screens@4.26.2": "patches/react-native-screens@4.26.2.patch"
+  }
 }

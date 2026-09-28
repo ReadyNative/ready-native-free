@@ -1,3 +1,5 @@
+import { I18nManager } from "react-native";
+
 import { fontWeight } from "@/theme/tokens";
 import type { TextProps, TextVariant } from "@/components/ui/types";
 
@@ -17,6 +19,13 @@ const VARIANT: Record<TextVariant, RnrVariant> = {
   code: "code",
 };
 
+/**
+ * Unaligned text follows the layout direction. iOS resolves "natural" alignment from the
+ * text itself, so an Arabic UI left-aligns Latin strings (and, on Fabric, Arabic ones too);
+ * `left` is swapped to `right` under RTL, which puts every label at the reading start.
+ */
+const START = { textAlign: "left" } as const;
+
 export function Text({
   variant = "body",
   color,
@@ -34,7 +43,7 @@ export function Text({
       style={[
         color ? { color: colors[color] } : null,
         weight ? { fontWeight: fontWeight[weight] } : null,
-        align ? { textAlign: align } : null,
+        align ? { textAlign: align } : I18nManager.isRTL ? START : null,
         style,
       ]}
     >

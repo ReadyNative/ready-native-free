@@ -42,3 +42,8 @@ export function useLanguage(): Language {
 }
 
 export async function setLanguage(_language: Language): Promise<void> {}
+
+/** Right-to-left script? The shim ships English only, so never. */
+export function isRTL(_language: Language): boolean {
+  return false;
+}

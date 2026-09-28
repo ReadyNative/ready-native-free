@@ -1,6 +1,7 @@
 import Constants from "expo-constants";
 
 import { usePasswordPrompt, type AskPasswordOptions } from "@/components/password-prompt";
+import { RowGroup } from "@/components/row-group";
 import { onboardingEnabled } from "@/hooks/use-onboarding-redirect";
 import { deleteServerData } from "@/lib/account-data";
 import { analytics } from "@/lib/analytics";
@@ -16,6 +17,7 @@ import { readynative } from "@/lib/readynative";
 import {
   LANGUAGES,
   LANGUAGE_LABELS,
+  isRTL,
   setLanguage,
   useLanguage,
   useT,
@@ -27,8 +29,6 @@ import { resetOnboarding } from "@/stores/onboarding";
 import {
   Box,
   Button,
-  Card,
-  Divider,
   Icon,
   Row,
   Screen,
@@ -64,9 +64,6 @@ const LINKS: LinkRow[] = [
 
 // Widened so the picker keeps compiling when `LANGUAGES` holds a single locale (`--i18n none`).
 const languages: readonly Language[] = LANGUAGES;
-
-/** Rows bring their own 16pt padding, so a row card is unpadded and clips them. */
-const ROW_CARD = { overflow: "hidden" } as const;
 
 function RowIcon({ name, fallback }: { name: string; fallback: string }) {
   return <Icon name={name} fallback={fallback} size={22} color="mutedForeground" />;
@@ -220,60 +217,61 @@ export function SettingsScreen() {
 
   return (
     <Screen scroll>
-      <Box gap={4}>
+      <Box gap={6}>
         <Text variant="title">{t("Settings")}</Text>
 
-        <Card>
-          <Box gap={3}>
-            <Text variant="heading">{t("Appearance")}</Text>
-            <Box row gap={2}>
-              {MODES.map((m) => (
+        <RowGroup
+          title={t("Appearance")}
+          footer={t("Currently {{mode}}", { mode: t(resolved === "dark" ? "Dark" : "Light") })}
+        >
+          <Box row gap={2} p={3}>
+            {MODES.map((m) => (
+              <Box key={m.value} flex={1}>
                 <Button
-                  key={m.value}
                   size="sm"
                   variant={mode === m.value ? "primary" : "outline"}
                   onPress={() => setThemeMode(m.value)}
                 >
                   {t(m.label)}
                 </Button>
-              ))}
-            </Box>
-            <Text variant="caption">
-              {t("Currently {{mode}}", { mode: t(resolved === "dark" ? "Dark" : "Light") })}
-            </Text>
+              </Box>
+            ))}
           </Box>
-        </Card>
+        </RowGroup>
 
         {languages.length > 1 ? (
-          <Card>
-            <Box gap={3}>
-              <Text variant="heading">{t("Language")}</Text>
-              <Box row gap={2}>
-                {languages.map((lang) => (
-                  <Button
-                    key={lang}
-                    size="sm"
-                    variant={language === lang ? "primary" : "outline"}
-                    onPress={() => void setLanguage(lang)}
-                  >
-                    {LANGUAGE_LABELS[lang]}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-          </Card>
+          <RowGroup
+            title={t("Language")}
+            footer={
+              languages.some(isRTL)
+                ? t("Right-to-left languages flip the layout and restart the app.")
+                : undefined
+            }
+          >
+            {languages.map((lang) => (
+              <Row
+                key={lang}
+                title={LANGUAGE_LABELS[lang]}
+                chevron={false}
+                trailing={
+                  language === lang ? (
+                    <Icon name="checkmark" fallback="check" size={18} color="brandAccent" />
+                  ) : undefined
+                }
+                onPress={() => void setLanguage(lang)}
+              />
+            ))}
+          </RowGroup>
         ) : null}
 
         {session.status === "authenticated" ? (
-          <Card p={0} style={ROW_CARD}>
-            <Box gap={2} px={4} pt={4} pb={2}>
-              <Text variant="heading">{t("Account")}</Text>
+          <RowGroup title={t("Account")} icons>
+            <Box gap={1} px={4} py={3}>
               <Text>{session.user.name ?? session.user.email ?? session.user.id}</Text>
               {session.user.name && session.user.email ? (
                 <Text variant="caption">{session.user.email}</Text>
               ) : null}
             </Box>
-            <Divider spacing={0} />
             <Row
               title={t("Sign out")}
               leading={<RowIcon name="rectangle.portrait.and.arrow.right" fallback="logout" />}
@@ -281,7 +279,6 @@ export function SettingsScreen() {
               chevron={false}
               onPress={signOut}
             />
-            <Divider spacing={0} />
             <Row
               title={t("Delete account")}
               leading={<RowIcon name="person.crop.circle.badge.xmark" fallback="person_remove" />}
@@ -289,82 +286,65 @@ export function SettingsScreen() {
               chevron={false}
               onPress={() => void deleteAccount(t, askPassword)}
             />
-          </Card>
+          </RowGroup>
         ) : null}
 
-        <Card p={0} style={ROW_CARD}>
-          <Box px={4} pt={4} pb={2}>
-            <Text variant="heading">{t("Privacy")}</Text>
-          </Box>
+        <RowGroup title={t("Privacy")} icons>
           {consentEnabled
             ? privacyCategories.map((category) => (
-                <Box key={category}>
-                  <Divider spacing={0} />
-                  <Row
-                    title={t(CATEGORY_ROWS[category].title)}
-                    leading={
-                      <RowIcon
-                        name={CATEGORY_ROWS[category].icon}
-                        fallback={CATEGORY_ROWS[category].fallback}
-                      />
-                    }
-                    trailing={
-                      <Switch
-                        value={choices[category]}
-                        onValueChange={(v) => consent.set({ [category]: v })}
-                      />
-                    }
-                  />
-                </Box>
+                <Row
+                  key={category}
+                  title={t(CATEGORY_ROWS[category].title)}
+                  leading={
+                    <RowIcon
+                      name={CATEGORY_ROWS[category].icon}
+                      fallback={CATEGORY_ROWS[category].fallback}
+                    />
+                  }
+                  trailing={
+                    <Switch
+                      value={choices[category]}
+                      onValueChange={(v) => consent.set({ [category]: v })}
+                    />
+                  }
+                />
               ))
             : null}
           {privacyCategories.includes("analytics") ? (
-            <>
-              <Divider spacing={0} />
-              <Row
-                title={t("Do not sell or share my personal information")}
-                leading={<RowIcon name="hand.raised" fallback="do_not_touch" />}
-                trailing={
-                  <Switch
-                    value={consentState.doNotSell}
-                    onValueChange={(v) => consent.setDoNotSell(v)}
-                  />
-                }
-              />
-            </>
+            <Row
+              title={t("Do not sell or share my personal information")}
+              leading={<RowIcon name="hand.raised" fallback="do_not_touch" />}
+              trailing={
+                <Switch
+                  value={consentState.doNotSell}
+                  onValueChange={(v) => consent.setDoNotSell(v)}
+                />
+              }
+            />
           ) : null}
-          <Divider spacing={0} />
           <Row
             title={t("Export my data")}
             leading={<RowIcon name="square.and.arrow.up" fallback="ios_share" />}
             chevron={false}
             onPress={() => void exportData(t, session.user)}
           />
-        </Card>
+        </RowGroup>
 
         {links.length > 0 ? (
-          <Card p={0} style={ROW_CARD}>
-            <Box px={4} pt={4} pb={2}>
-              <Text variant="heading">{t("Links")}</Text>
-            </Box>
-            {links.map((l, i) => (
-              <Box key={l.key}>
-                {i > 0 ? <Divider spacing={0} /> : null}
-                <Row
-                  title={t(l.label)}
-                  leading={<RowIcon name={l.icon} fallback={l.fallback} />}
-                  onPress={() => openUrl(readynative.urls[l.key])}
-                />
-              </Box>
+          <RowGroup title={t("Links")} icons>
+            {links.map((l) => (
+              <Row
+                key={l.key}
+                title={t(l.label)}
+                leading={<RowIcon name={l.icon} fallback={l.fallback} />}
+                onPress={() => openUrl(readynative.urls[l.key])}
+              />
             ))}
-          </Card>
+          </RowGroup>
         ) : null}
 
         {onboardingEnabled ? (
-          <Card p={0} style={ROW_CARD}>
-            <Box px={4} pt={4} pb={2}>
-              <Text variant="heading">{t("Onboarding")}</Text>
-            </Box>
+          <RowGroup title={t("Onboarding")} icons>
             <Row
               title={t("Reset onboarding")}
               leading={<RowIcon name="arrow.counterclockwise" fallback="restart_alt" />}
@@ -374,7 +354,7 @@ export function SettingsScreen() {
                 toast.show({ title: t("Onboarding reset") });
               }}
             />
-          </Card>
+          </RowGroup>
         ) : null}
 
         <Text variant="caption" align="center">
