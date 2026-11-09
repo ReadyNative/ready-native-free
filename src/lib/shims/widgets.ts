@@ -12,6 +12,18 @@ export interface WidgetSnapshot {
   subtitle?: string;
   /** SF Symbol name for the corner glyph, e.g. "cloud.sun.fill". */
   symbol?: string;
+  /** A map of where the value is, faded in behind the right side. From `widgets.map(...)`. */
+  map?: WidgetMap;
+}
+
+/**
+ * A 3 × 3 block of map tiles on disk, centred on a place: `tiles` are file URIs, row by row,
+ * and `x` / `y` (0-1) are where the place sits inside the middle tile.
+ */
+export interface WidgetMap {
+  tiles: string[];
+  x: number;
+  y: number;
 }
 
 /**
@@ -43,6 +55,11 @@ export interface Widgets {
   supported: boolean;
   /** Replaces what the home-screen widget shows. Safe to call anywhere; never throws. */
   update(snapshot: WidgetSnapshot): void;
+  /**
+   * Downloads (or reuses) the map tiles around a place into the widget's shared folder, for
+   * `snapshot.map`. Resolves `null` wherever widgets can't run or the tiles can't be fetched.
+   */
+  map(latitude: number, longitude: number): Promise<WidgetMap | null>;
   /** Live Activities: the same data, live on the Lock Screen and in the Dynamic Island. */
   activity: LiveActivities;
 }
@@ -50,6 +67,7 @@ export interface Widgets {
 export const widgets: Widgets = {
   supported: false,
   update: () => {},
+  map: () => Promise.resolve(null),
   activity: {
     supported: false,
     start: () => Promise.resolve(false),

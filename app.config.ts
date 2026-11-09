@@ -33,7 +33,7 @@ type ModuleAppPatch = { expo?: Partial<ExpoConfig> & { plugins?: Plugin[] } };
  */
 function readModuleAppPatch(): Partial<ExpoConfig> {
   const file = path.join(APP_ROOT, ".readynative.json");
-  if (!fs.existsSync(file)) return {};
+  if (!fs.existsSync(file)) return readPresetupAppPatch();
   try {
     const parsed = JSON.parse(fs.readFileSync(file, "utf8")) as {
       modules?: { app?: ModuleAppPatch };
@@ -41,6 +41,21 @@ function readModuleAppPatch(): Partial<ExpoConfig> {
     return parsed.modules?.app?.expo ?? {};
   } catch (err) {
     console.warn("[app.config] ignoring unreadable .readynative.json", err);
+    return {};
+  }
+}
+
+/**
+ * Before setup: the patch of the selection this tree ships with (written by the release, deleted
+ * by setup), so a `bun run ios` on the untouched tree gets the plugins its src/ already uses.
+ */
+function readPresetupAppPatch(): Partial<ExpoConfig> {
+  const file = path.join(APP_ROOT, ".readynative-app.json");
+  if (!fs.existsSync(file)) return {};
+  try {
+    return (JSON.parse(fs.readFileSync(file, "utf8")) as ModuleAppPatch).expo ?? {};
+  } catch (err) {
+    console.warn("[app.config] ignoring unreadable .readynative-app.json", err);
     return {};
   }
 }
