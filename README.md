@@ -35,8 +35,5 @@ Everything here runs in Expo Go; no dev build, no accounts, no keys. `start` is
 | `src/lib`           | env, storage, the query client, small helpers                           |
 | `src/stores`        | Zustand stores                                                          |
 | `src/theme`         | Tokens, colour scheme, navigation theme                                 |
-| `readynative.config.ts`   | App name, slug, scheme, bundle ids, brand colour - edit this first      |
-subscriptions (RevenueCat, Adapty, Stripe), push, analytics, crash reporting, API routes and
-two finished example apps.
 
 Docs: https://readynative.app/docs/
