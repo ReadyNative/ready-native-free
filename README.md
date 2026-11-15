@@ -1,8 +1,8 @@
 # ReadyNative Free: an Expo boilerplate for React Native
 
-A free Expo SDK 57 starter for iOS and Android with the stack already chosen: **Expo Router**, **NativeWind 4**
+A free Expo SDK 58 starter for iOS and Android with the stack already chosen: **Expo Router**, **NativeWind 4**
 (Tailwind 3), **TanStack Query** and **Zustand**. TypeScript, dark mode, nothing else.
-MIT licensed - this is v1.4.1 of `ready-native-free`, the free tier of [readynative.app](https://readynative.app).
+MIT licensed - this is v1.7.0 of `ready-native-free`, the free tier of [readynative.app](https://readynative.app).
 
 ```bash
 git clone https://github.com/ReadyNative/ready-native-free my-app && cd my-app

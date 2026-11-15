@@ -218,8 +218,6 @@ const baseConfig = ({ config: base }: { config: Partial<ExpoConfig> }): ExpoConf
       },
     ],
     "expo-dev-client",
-    // iOS 27: adopt the UIScene life cycle (see the plugin header).
-    "./plugins/with-scene-lifecycle.js",
   ],
   experiments: {
     typedRoutes: true,

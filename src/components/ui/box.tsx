@@ -1,4 +1,4 @@
-import { View, type FlexAlignType, type ViewStyle } from "react-native";
+import { View, type ViewStyle } from "react-native";
 
 import { radius as radii, space } from "@/theme/tokens";
 import type { BoxAlign, BoxJustify, BoxProps, JustifyContent } from "@/components/ui/types";
@@ -25,6 +25,8 @@ const JUSTIFY: Record<BoxJustify, JustifyContent> = {
   stretch: "flex-start",
   baseline: "flex-start",
 };
+
+type FlexAlignType = NonNullable<ViewStyle["alignItems"]>;
 
 const ALIGN: Record<BoxAlign, FlexAlignType> = {
   "flex-start": "flex-start",
@@ -70,7 +72,7 @@ export function Box({
   children,
 }: BoxProps) {
   const { colors } = useTheme();
-  const base: ViewStyle = {};
+  const base: { -readonly [K in keyof ViewStyle]?: ViewStyle[K] } = {};
 
   if (p !== undefined) base.padding = space[p];
   if (px !== undefined) base.paddingHorizontal = space[px];

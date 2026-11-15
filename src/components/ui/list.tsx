@@ -70,9 +70,9 @@ export function List<T>({
       renderItem={({ item, index }: ListRenderItemInfo<T>) => <>{renderItem(item, index)}</>}
       keyExtractor={keyExtractor ?? defaultKey}
       ItemSeparatorComponent={renderSeparator}
-      ListHeaderComponent={header != null ? <>{header}</> : null}
-      ListFooterComponent={footer != null ? <>{footer}</> : null}
-      ListEmptyComponent={empty != null ? <>{empty}</> : null}
+      ListHeaderComponent={header != null ? <>{header}</> : undefined}
+      ListFooterComponent={footer != null ? <>{footer}</> : undefined}
+      ListEmptyComponent={empty != null ? <>{empty}</> : undefined}
       refreshing={onRefresh ? (refreshing ?? false) : undefined}
       onRefresh={onRefresh}
       scrollEnabled={!nested}

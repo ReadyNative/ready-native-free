@@ -18,6 +18,8 @@
     "location": "none",
     "widgets": "none",
     "consent": "none",
+    "sheet": "none",
+    "feedback": "none",
     "testing": "none"
   },
   "applied": true,

@@ -11,6 +11,7 @@ import { confirm } from "@/lib/confirm";
 import { consent, consentEnabled } from "@/lib/consent";
 import { crash } from "@/lib/crash";
 import { payments } from "@/lib/payments";
+import { feedback, feedbackEnabled } from "@/lib/feedback";
 import { exportLocalData, shareDataExport, wipeLocalData } from "@/lib/privacy";
 import { privacyCategories } from "@/lib/privacy-categories";
 import { readynative } from "@/lib/readynative";
@@ -329,6 +330,17 @@ export function SettingsScreen() {
             onPress={() => void exportData(t, session.user)}
           />
         </RowGroup>
+
+        {feedbackEnabled ? (
+          <RowGroup title={t("Support")} icons>
+            <Row
+              title={t("Send feedback")}
+              leading={<RowIcon name="bubble.left.and.text.bubble.right" fallback="feedback" />}
+              chevron={false}
+              onPress={() => feedback.open()}
+            />
+          </RowGroup>
+        ) : null}
 
         {links.length > 0 ? (
           <RowGroup title={t("Links")} icons>

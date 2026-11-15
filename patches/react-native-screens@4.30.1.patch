@@ -2,7 +2,7 @@ diff --git a/ios/RNSScreenStackHeaderConfig.mm b/ios/RNSScreenStackHeaderConfig.
 index 1c844846a5c66e31cfa530ca462774d2fb6bbea1..d1c12931489a4ac488e7a337b19ac10c1965654a 100644
 --- a/ios/RNSScreenStackHeaderConfig.mm
 +++ b/ios/RNSScreenStackHeaderConfig.mm
-@@ -82,6 +82,10 @@ - (void)initProps
+@@ -83,6 +83,10 @@ - (void)initProps
    _backTitleVisible = YES;
    _blurEffect = RNSBlurEffectStyleNone;
    _synchronousShadowStateUpdatesEnabled = YES;

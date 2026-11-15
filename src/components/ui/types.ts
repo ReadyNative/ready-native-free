@@ -3,13 +3,7 @@
  * so a component can be rewritten without touching its public shape.
  */
 import type { ReactNode } from "react";
-import type {
-  FlexAlignType,
-  KeyboardTypeOptions,
-  StyleProp,
-  TextStyle,
-  ViewStyle,
-} from "react-native";
+import type { KeyboardTypeOptions, StyleProp, TextStyle, ViewStyle } from "react-native";
 
 import type {
   ColorToken,
@@ -37,6 +31,8 @@ export type JustifyContent =
  */
 export type FlexAlias =
   "start" | "center" | "end" | "between" | "around" | "evenly" | "stretch" | "baseline";
+
+type FlexAlignType = NonNullable<ViewStyle["alignItems"]>;
 
 export type BoxAlign = FlexAlignType | FlexAlias;
 

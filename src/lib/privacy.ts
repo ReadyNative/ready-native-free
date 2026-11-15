@@ -98,7 +98,7 @@ export async function shareDataExport(
   if (Platform.OS !== "web" && (await Sharing.isAvailableAsync())) {
     const file = new File(Paths.cache, exportFileName(opts.now));
     file.create({ overwrite: true });
-    file.write(json);
+    await file.write(json);
     try {
       await Sharing.shareAsync(file.uri, {
         mimeType: "application/json",
