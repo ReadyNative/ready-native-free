@@ -2,7 +2,7 @@
 
 A free Expo SDK 57 starter for iOS and Android with the stack already chosen: **Expo Router**, **NativeWind 4**
 (Tailwind 3), **TanStack Query** and **Zustand**. TypeScript, dark mode, nothing else.
-MIT licensed - this is v1.4.1 of `ready-native-free`, the free tier of [readynative.app](https://readynative.app).
+MIT licensed - this is v1.5.1 of `ready-native-free`, the free tier of [readynative.app](https://readynative.app).
 
 ```bash
 git clone https://github.com/ReadyNative/ready-native-free my-app && cd my-app
@@ -35,17 +35,5 @@ Everything here runs in Expo Go; no dev build, no accounts, no keys. `start` is
 | `src/lib`           | env, storage, the query client, small helpers                           |
 | `src/stores`        | Zustand stores                                                          |
 | `src/theme`         | Tokens, colour scheme, navigation theme                                 |
-| `readynative.config.ts`   | App name, slug, scheme, bundle ids, brand colour - edit this first      |
-
-## Want the rest?
-
-This repo is one fixed stack. [ReadyNative Starter](https://readynative.app/#pricing) is the same app
-with the picker - 5 UI stacks (NativeWind 4, NativeWind 5 RC, Tamagui, Unistyles, StyleSheet),
-TanStack Query / Apollo / SWR, Zustand / Jotai, forms, i18n, onboarding, Jest + Maestro
-tests - plus EAS build and submit profiles, `doctor`, the icon / splash
-generator, deep-link files, and `AGENTS.md` + the architecture graph for your coding agent. <!-- check-refs-ignore: describes Starter -->
-[ReadyNative Pro](https://readynative.app/#pricing) adds sign-in (Supabase, Clerk, Better Auth),
-subscriptions (RevenueCat, Adapty, Stripe), push, analytics, crash reporting, API routes and
-two finished example apps.
 
 Docs: https://readynative.app/docs/

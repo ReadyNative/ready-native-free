@@ -1,4 +1,7 @@
-/** No-op analytics (contract 5). Replaced by the selected analytics module. */
+/**
+ * No-op analytics (contract 5). Replaced by the selected analytics module. Every implementation
+ * exports the same names, including the two flags `analyticsEnabled` and `featureFlagsEnabled`.
+ */
 
 export type AnalyticsProps = Record<string, string | number | boolean | null | undefined>;
 
@@ -29,6 +32,12 @@ export interface Analytics {
  * "Do not sell or share" only show analytics controls when a module is selected.
  */
 export const analyticsEnabled = false;
+
+/**
+ * `false` here and in `analytics/amplitude` and `analytics/none`; `true` in `analytics/posthog`.
+ * When `true`, `useExperiment` reads the provider's variant flags before it assigns locally.
+ */
+export const featureFlagsEnabled = false;
 
 export const analytics: Analytics = {
   track: () => {},

@@ -36,7 +36,8 @@ export function Input({
       >
         {leftIcon}
         <TextInput
-          className="text-foreground flex-1 text-base"
+          // Multiline: fill the box, so a tap anywhere in it focuses the field (not only the first line).
+          className={cn("text-foreground flex-1 text-base", multiline && "self-stretch")}
           value={value}
           onChangeText={onChangeText}
           placeholder={placeholder}
